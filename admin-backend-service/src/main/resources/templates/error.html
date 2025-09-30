@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${message != null} ? ${message} : 'Error'">Error</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <style>
+        .message-container {
+            margin-top: 40px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div class="container message-container">
+    <h1 th:text="${message != null} ? ${message} : 'Something went wrong'">Something went wrong</h1>
+
+    <div class="alert alert-danger">
+        <p>An error occurred while processing your request.</p>
+        <p th:if="${errorId != null}">Error ID: <strong th:text="${errorId}">0000-0000</strong></p>
+    </div>
+    <div class="actions" style="margin-top:20px;">
+        <a href="/" class="btn btn-primary">Home</a>
+    </div>
+</div>
+</body>
+</html>

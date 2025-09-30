@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Редактирование музея</title>
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <div th:if="${museum != null}">
+        <h2 th:text="|Редактирование: ${museum.officialName}|">Редактирование музея</h2>
+        <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+        <form method="post" th:action="@{'/museums/' + museum.id + '?fromPage=' + fromPage + '&fromSize=' + fromSize}" th:object="${museum}">
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" th:field="*{verified}"> Верифицирован
+                </label>
+            </div>
+            <div class="form-group">
+                <label for="officialName">Официальное название</label>
+                <input type="text" class="form-control" id="officialName"
+                       th:field="*{officialName}" required maxlength="255">
+                <div class="alert alert-danger" th:if="${#fields.hasErrors('officialName')}" th:errors="*{officialName}"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="locality">Населённый пункт</label>
+                <input type="text" class="form-control" id="locality"
+                       th:field="*{locality}" maxlength="100">
+                <div class="alert alert-danger" th:if="${#fields.hasErrors('locality')}" th:errors="*{locality}"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="addressOverride">Переопределённый адрес</label>
+                <input type="text" class="form-control" id="addressOverride"
+                       th:field="*{addressOverride}"
+                       maxlength="500"
+                       placeholder="Оставьте пустым, чтобы использовать адрес из OSM">
+                <div class="alert alert-danger" th:if="${#fields.hasErrors('addressOverride')}" th:errors="*{addressOverride}"></div>
+                <p class="help-block"
+                   th:if="${originalMuseum != null and originalMuseum.osmData != null and originalMuseum.osmData.fullAddress != null}"
+                   th:text="|Адрес из OSM: ${originalMuseum.osmData.fullAddress}|"></p>
+            </div>
+
+            <div class="form-group">
+                <label for="website">Сайт</label>
+                <input type="text" class="form-control" id="website" th:field="*{website}"
+                       maxlength="2048" inputmode="url"
+                       pattern="^(?:https?://)?(?:www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}(?::\d{2,5})?(?:/\S*)?$"
+                       title="Пример: www.site.com или https://site.com">
+                <div class="alert alert-danger" th:if="${#fields.hasErrors('website')}" th:errors="*{website}"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="telegram">Telegram-канал</label>
+                <input type="text" class="form-control" id="telegram" th:field="*{telegram}"
+                       maxlength="33"
+                       pattern="^@?[a-zA-Z][a-zA-Z0-9_]{3,30}[a-zA-Z0-9]$"
+                       title="Формат: @username или username (5–32 символа)">
+                <div class="alert alert-danger" th:if="${#fields.hasErrors('telegram')}" th:errors="*{telegram}"></div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="latitude">Широта (−90..90)</label>
+                        <input type="number" step="any" class="form-control" id="latitude"
+                               th:field="*{latitude}" min="-90" max="90"
+                               placeholder="Напр.: 55.751244" required>
+                        <div class="alert alert-danger" th:if="${#fields.hasErrors('latitude')}" th:errors="*{latitude}"></div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="longitude">Долгота (−180..180)</label>
+                        <input type="number" step="any" class="form-control" id="longitude"
+                               th:field="*{longitude}" min="-180" max="180"
+                               placeholder="Напр.: 37.618423" required>
+                        <div class="alert alert-danger" th:if="${#fields.hasErrors('longitude')}" th:errors="*{longitude}"></div>
+                    </div>
+                </div>
+            </div>
+
+            <hr/>
+            <button type="submit" class="btn btn-primary">Сохранить</button>
+            <a th:href="@{/museums(page=${fromPage}, size=${fromSize})}" class="btn btn-default">Отмена</a>
+        </form>
+    </div>
+    <div th:if="${museum == null}">
+        <h2>Музей не найден</h2>
+        <a href="/museums" class="btn btn-primary">Вернуться к списку</a>
+    </div>
+</div>
+</body>
+</html>

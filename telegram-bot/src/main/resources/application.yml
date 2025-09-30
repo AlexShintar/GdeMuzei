@@ -1,0 +1,11 @@
+spring:
+  config:
+    import: "optional:application-secrets.yml"
+  main:
+    web-application-type: none
+museum:
+  api:
+    base-url: http://localhost:8082
+    search-path: api/v1/museums/search
+    timeout-ms: 10000
+    max-in-memory-kb: 256

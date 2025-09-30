@@ -1,0 +1,54 @@
+server:
+  port: 8082
+
+spring:
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: museum
+
+      username: admin
+      password: gdemuzeipassword
+      authentication-database: admin
+
+      auto-index-creation: true
+
+  shell:
+    interactive:
+      enabled: true
+    noninteractive:
+      enabled: false
+    command:
+      version:
+        enabled: false
+
+mongock:
+  enabled: true
+  runner-type: InitializingBean
+  migration-scan-package:
+    - ru.otus.hw.mongock
+
+osm:
+  enrich:
+    delay-between: 3s
+    retry-attempts: 2
+    retry-delay: 7s
+
+data:
+  import:
+    museum-csv-path: "C:\\Otus\\museum.csv"
+
+clients:
+  nominatim:
+    base-url: https://nominatim.openstreetmap.org
+    user-agent: GdeMuzeiApp/1.0 (admin@gdemuzei.ru)
+    connect-timeout-ms: 3000
+    response-timeout: 5s
+    max-in-memory-bytes: 256KB
+    max-connections: 50
+
+
+application:
+  nearby:
+    radius-km: 10.0

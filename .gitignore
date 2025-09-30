@@ -1,0 +1,10 @@
+target/
+*.mvn
+*.class
+*.iml
+*.iws
+*.ipr
+.idea/
+
+*.log
+application-secrets.yml

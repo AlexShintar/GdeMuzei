@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Список Музеев</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <style>
+        .pagination-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        .pagination-controls .form-inline {
+            display: flex;
+            align-items: center;
+        }
+        .pagination-controls .form-group {
+            margin-left: 15px;
+        }
+        .table > tbody > tr {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <form th:action="@{/museums}" method="get" class="pagination-controls">
+        <input type="hidden" name="page" th:value="${museumsPage.number}">
+        <div>
+            <nav aria-label="Page navigation" th:if="${museumsPage.totalPages > 1}">
+                <ul class="pagination" style="margin: 0;">
+                    <li th:classappend="${museumsPage.first} ? 'disabled'">
+                        <a th:href="${museumsPage.first} ? '#' : @{/museums(page=${museumsPage.number - 1}, size=${museumsPage.size})}"><span>&laquo;</span></a>
+                    </li>
+                    <th:block th:with="
+                        start=${T(java.lang.Math).max(0, museumsPage.number - 2)},
+                        end=${T(java.lang.Math).min(museumsPage.totalPages - 1, museumsPage.number + 2)}
+                    ">
+                        <li th:each="i : ${#numbers.sequence(start, end)}"
+                            th:classappend="${i == museumsPage.number} ? 'active'">
+                            <a th:href="@{/museums(page=${i}, size=${museumsPage.size})}" th:text="${i + 1}">1</a>
+                        </li>
+                    </th:block>
+                    <li th:classappend="${museumsPage.last} ? 'disabled'">
+                        <a th:href="${museumsPage.last} ? '#' : @{/museums(page=${museumsPage.number + 1}, size=${museumsPage.size})}"><span>&raquo;</span></a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div class="form-inline">
+            <a th:href="@{/museums/create}" class="btn btn-primary">Добавить музей</a>
+            <div class="form-group">
+                <label for="size-select">Строк на странице:</label>
+                <select id="size-select" name="size" class="form-control" onchange="this.form.submit()">
+                    <option value="10" th:selected="${museumsPage.size == 10}">10</option>
+                    <option value="20" th:selected="${museumsPage.size == 20}">20</option>
+                    <option value="50" th:selected="${museumsPage.size == 50}">50</option>
+                </select>
+            </div>
+        </div>
+    </form>
+
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>Название</th>
+            <th>Адрес</th>
+            <th>Сайт</th>
+            <th>Статус</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="museum : ${museumsPage.content}"
+            th:data-href="@{/museums/{id}(id=${museum.id}, fromPage=${museumsPage.number}, fromSize=${museumsPage.size})}">
+            <td th:text="${museum.name}">Название музея</td>
+            <td th:text="${museum.address}">Адрес</td>
+            <td>
+                <a th:if="${museum.website}"
+                   th:with="cleanUrl=${#strings.replace(#strings.replace(museum.website, 'https://', ''), 'http://', '')}"
+                   th:href="${#strings.startsWith(museum.website, 'http') ? museum.website : 'https://' + museum.website}"
+                   th:text="${#strings.endsWith(cleanUrl, '/') ? #strings.substring(cleanUrl, 0, #strings.length(cleanUrl) - 1) : cleanUrl}"
+                   target="_blank"
+                   th:onclick="|event.stopPropagation()|"></a>
+            </td>
+            <td>
+                <span th:if="${museum.verified}" class="label label-success">Проверен</span>
+                <span th:unless="${museum.verified}" class="label label-warning">Не проверен</span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const sizeSelect = document.getElementById('size-select');
+        if (sizeSelect) {
+            sizeSelect.addEventListener('change', function() {
+                this.form.submit();
+            });
+        }
+
+        const rows = document.querySelectorAll('tr[data-href]');
+        rows.forEach(row => {
+            row.addEventListener('click', function() {
+                window.location.href = this.dataset.href;
+            });
+        });
+    });
+</script>
+</body>
+</html>

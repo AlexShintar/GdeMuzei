@@ -1,0 +1,8 @@
+${AnsiColor.WHITE}---------------------------------------------------------
+${AnsiColor.CYAN}:: Application  .... ${AnsiColor.GREEN}${application.title:museum-admin}${AnsiColor.YELLOW}${application.formatted-version}
+${AnsiColor.CYAN}:: Spring Boot  .... ${AnsiColor.GREEN}${spring-boot.formatted-version}
+${AnsiColor.CYAN}:: Java VM  ........ ${AnsiColor.GREEN}${java.vm.name} ${AnsiColor.YELLOW}(${java.version})
+
+http://localhost:8081/museums
+
+${AnsiColor.WHITE}---------------------------------------------------------${AnsiColor.DEFAULT}
