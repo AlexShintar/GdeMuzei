@@ -4,6 +4,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.springframework.data.geo.GeoResult;
+import ru.gdemuzei.contracts.MuseumDto;
 import ru.gdemuzei.dto.*;
 import ru.gdemuzei.models.Museum;
 

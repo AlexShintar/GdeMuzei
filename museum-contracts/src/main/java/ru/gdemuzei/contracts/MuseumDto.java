@@ -1,4 +1,4 @@
-package ru.gdemuzei.dto;
+package ru.gdemuzei.contracts;
 
 import ru.gdemuzei.models.OsmData;
 

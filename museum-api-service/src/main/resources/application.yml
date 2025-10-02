@@ -48,7 +48,18 @@ clients:
     max-in-memory-bytes: 256KB
     max-connections: 50
 
-
 application:
   nearby:
     radius-km: 10.0
+
+# ===================================================================
+# API Path Configuration
+# ===================================================================
+api:
+  paths:
+    public:
+      museums: /api/public/v2/museums
+      search: /api/public/v2/museums/search
+    admin:
+      museums: /api/admin/v2/museums
+      search: /api/admin/v2/museums/search

@@ -1,16 +1,17 @@
 package ru.gdemuzei.services;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import ru.gdemuzei.contracts.MuseumDto;
 import ru.gdemuzei.dto.*;
 import ru.gdemuzei.models.Museum;
 import ru.gdemuzei.models.OsmData;
 
 public interface MuseumService {
 
-    Flux<MuseumResponse> findAll();
-
-    Flux<MuseumSummaryDto> findAllPaginated(int page, int size);
+    Mono<Page<MuseumSummaryDto>> findAllForAdmin(PageRequest pageRequest);
 
     Mono<Long> countAll();
 
@@ -25,4 +26,6 @@ public interface MuseumService {
     Flux<MuseumGeoResponse> findNearbyWithOffset(double lat, double lon, int offset, int limit);
 
     Mono<MuseumResponse> update(String id, MuseumUpdateRequest request);
+
+    Mono<Void> markAsDeleted(String id);
 }

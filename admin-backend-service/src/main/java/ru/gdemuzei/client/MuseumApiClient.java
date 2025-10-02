@@ -13,7 +13,7 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 import reactor.core.publisher.Mono;
 import ru.gdemuzei.dto.ErrorResponse;
 import ru.gdemuzei.dto.MuseumCreateRequest;
-import ru.gdemuzei.dto.MuseumDto;
+import ru.gdemuzei.contracts.MuseumDto;
 import ru.gdemuzei.dto.MuseumSummaryDto;
 import ru.gdemuzei.dto.MuseumUpdateRequest;
 import ru.gdemuzei.services.RestPageImpl;
@@ -27,7 +27,7 @@ public class MuseumApiClient {
     public Mono<Page<MuseumSummaryDto>> getMuseumsPaginated(int page, int size) {
         return this.webClient.get()
                 .uri(uriBuilder -> uriBuilder
-                        .path("/api/v1/museums")
+                        .path("/api/admin/v2/museums")
                         .queryParam("page", page)
                         .queryParam("size", size)
                         .build())
@@ -39,7 +39,7 @@ public class MuseumApiClient {
 
     public Mono<MuseumDto> getMuseumById(String id) {
         return this.webClient.get()
-                .uri("/api/v1/museums/{id}", id)
+                .uri("/api/public/v2/museums/{id}", id)
                 .retrieve()
                 .bodyToMono(MuseumDto.class)
                 .onErrorResume(WebClientResponseException.NotFound.class, ex -> Mono.empty());
@@ -47,7 +47,7 @@ public class MuseumApiClient {
 
     public Mono<MuseumDto> createMuseum(MuseumCreateRequest request) {
         return webClient.post()
-                .uri("/api/v1/museums")
+                .uri("/api/admin/v2/museums")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .bodyValue(request)
@@ -61,7 +61,7 @@ public class MuseumApiClient {
 
     public Mono<MuseumDto> updateMuseum(String id, MuseumUpdateRequest request) {
         return webClient.put()
-                .uri("/api/v1/museums/{id}", id)
+                .uri("/api/admin/v2/museums/{id}", id)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .bodyValue(request)

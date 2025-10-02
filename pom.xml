@@ -17,6 +17,7 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>museum-contracts</module>
         <module>museum-api-service</module>
         <module>admin-backend-service</module>
         <module>telegram-bot</module>
