@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import ru.gdemuzei.contracts.MuseumCreateRequest;
 import ru.gdemuzei.contracts.MuseumDto;
 import ru.gdemuzei.dto.*;
 import ru.gdemuzei.models.Museum;
@@ -17,7 +18,7 @@ public interface MuseumService {
 
     Mono<MuseumDto> findById(String id);
 
-    Mono<MuseumResponse> create(MuseumCreateRequest request);
+    Mono<MuseumDto> create(MuseumCreateRequest request);
 
     Flux<Museum> findMuseumsWithoutOsmData();
 
@@ -25,7 +26,7 @@ public interface MuseumService {
 
     Flux<MuseumGeoResponse> findNearbyWithOffset(double lat, double lon, int offset, int limit);
 
-    Mono<MuseumResponse> update(String id, MuseumUpdateRequest request);
+    Mono<MuseumDto> update(String id, MuseumUpdateRequest request);
 
     Mono<Void> markAsDeleted(String id);
 }

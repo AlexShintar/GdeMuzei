@@ -5,7 +5,7 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.springframework.stereotype.Service;
-import ru.gdemuzei.dto.MuseumCreateRequest;
+import ru.gdemuzei.contracts.MuseumCreateRequest;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -59,7 +59,15 @@ public class MuseumCsvParser {
                     String telegramUser = parseTelegramUser(urlsBlock);
                     String websiteUrl = parseWebsiteUrl(urlsBlock);
 
-                    requests.add(new MuseumCreateRequest(name, longitude, latitude, telegramUser, websiteUrl));
+                    requests.add(new MuseumCreateRequest(
+                            name,           // officialName
+                            longitude,      // longitude
+                            latitude,       // latitude
+                            telegramUser,   // telegram
+                            websiteUrl,     // website
+                            null,           // addressOverride
+                            null            // locality
+                    ));
                 } catch (Exception e) {
                     log.error("Failed to parse CSV record: {}", csvRecord, e);
                 }

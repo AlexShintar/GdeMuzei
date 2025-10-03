@@ -1,4 +1,4 @@
-package ru.gdemuzei.dto;
+package ru.gdemuzei.contracts;
 
 import jakarta.validation.constraints.*;
 
@@ -21,7 +21,7 @@ public record MuseumCreateRequest(
                 message = "Некорректный формат Telegram-канала")
         String telegram,
 
-        @Pattern(regexp = "^(?:https?://)?(?:www\\.)?[a-zA-Z0-9-]+\\.[a-zA-Z]{2,}(?::\\d{2,5})?(?:/\\S*)?$",
+        @Pattern(regexp = "^(?:https?://)?(?:www\\.)?[a-zA-Z0-9][a-zA-Z0-9-]*(?:\\.[a-zA-Z0-9][a-zA-Z0-9-]*)+(?::\\d{2,5})?(?:/[^\\s]*)?$",
                 message = "Некорректный формат сайта")
         @Size(max = 2048, message = "Адрес сайта не должен превышать 2048 символов")
         String website,
@@ -32,7 +32,7 @@ public record MuseumCreateRequest(
         @Size(max = 100, message = "Название населенного пункта не должно превышать 100 символов")
         String locality
 ) {
-    public static MuseumCreateRequest empty() {
-        return new MuseumCreateRequest(null, null, null, null, null, null, null);
-    }
+        public static MuseumCreateRequest empty() {
+                return new MuseumCreateRequest(null, null, null, null, null, null, null);
+        }
 }

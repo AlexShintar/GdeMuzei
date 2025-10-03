@@ -12,7 +12,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Mono;
 import ru.gdemuzei.dto.ErrorResponse;
-import ru.gdemuzei.dto.MuseumCreateRequest;
+import ru.gdemuzei.contracts.MuseumCreateRequest;
 import ru.gdemuzei.contracts.MuseumDto;
 import ru.gdemuzei.dto.MuseumSummaryDto;
 import ru.gdemuzei.dto.MuseumUpdateRequest;

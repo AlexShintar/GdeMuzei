@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.reactive.result.view.Rendering;
 import reactor.core.publisher.Mono;
 import ru.gdemuzei.client.MuseumApiClient;
-import ru.gdemuzei.dto.MuseumCreateRequest;
+import ru.gdemuzei.contracts.MuseumCreateRequest;
 import ru.gdemuzei.dto.MuseumSummaryDto;
 import ru.gdemuzei.dto.MuseumUpdateRequest;
 
@@ -63,7 +63,10 @@ public class MuseumViewController {
                     model.addAttribute("fromSize", fromSize);
                     return Mono.just("museum-edit");
                 })
-                .switchIfEmpty(Mono.just("museum-not-found"));
+                .switchIfEmpty(Mono.defer(() -> {
+                    model.addAttribute("message", "Музей не найден");
+                    return Mono.just("error");
+                }));
     }
 
     /**

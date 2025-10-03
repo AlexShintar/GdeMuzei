@@ -12,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 //import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
+import ru.gdemuzei.contracts.MuseumCreateRequest;
+import ru.gdemuzei.contracts.MuseumDto;
 import ru.gdemuzei.dto.*;
 import ru.gdemuzei.services.MuseumService;
 import java.net.URI;
@@ -60,7 +62,7 @@ public class AdminMuseumController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public Mono<ResponseEntity<MuseumResponse>> createMuseum(
+    public Mono<ResponseEntity<MuseumDto>> createMuseum(
             @Valid @RequestBody MuseumCreateRequest request) {
         log.info("Creating museum: {}", request.officialName());
         return museumService.create(request)
@@ -81,7 +83,7 @@ public class AdminMuseumController {
     @PutMapping(path = "${api.paths.admin.museums}/{id}",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public Mono<ResponseEntity<MuseumResponse>> updateMuseum(
+    public Mono<ResponseEntity<MuseumDto>> updateMuseum(
             @PathVariable String id,
             @Valid @RequestBody MuseumUpdateRequest request) {
         log.info("Updating museum id={}", id);

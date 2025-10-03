@@ -16,6 +16,7 @@ import org.springframework.data.redis.core.ReactiveRedisTemplate;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import ru.gdemuzei.contracts.MuseumCreateRequest;
 import ru.gdemuzei.contracts.MuseumDto;
 import ru.gdemuzei.dto.*;
 import ru.gdemuzei.exceptions.EntityNotFoundException;
@@ -91,7 +92,7 @@ public class MuseumServiceImpl implements MuseumService {
      * Название нормализуется; дубликаты по нормализованному названию запрещены.
      */
     @Override
-    public Mono<MuseumResponse> create(MuseumCreateRequest request) {
+    public Mono<MuseumDto> create(MuseumCreateRequest request) {
 
         String normalizedName = NameNormalizer.normalize(request.officialName());
 
@@ -105,7 +106,7 @@ public class MuseumServiceImpl implements MuseumService {
                     museum.setVerified(false);
                     museum.setNormalizedOfficialName(normalizedName);
                     return museumRepository.save(museum)
-                            .map(museumMapper::toResponse);
+                            .map(museumMapper::toDto);
                 });
     }
 
@@ -157,7 +158,7 @@ public class MuseumServiceImpl implements MuseumService {
     }
 
     @Override
-    public Mono<MuseumResponse> update(String id, MuseumUpdateRequest request) {
+    public Mono<MuseumDto> update(String id, MuseumUpdateRequest request) {
         String normalizedName = NameNormalizer.normalize(request.officialName());
 
         return museumRepository.existsByNormalizedOfficialNameAndIdNot(normalizedName, id)
@@ -176,7 +177,7 @@ public class MuseumServiceImpl implements MuseumService {
 
                                 return museumRepository.save(entity);
                             })
-                            .map(museumMapper::toResponse);
+                            .map(museumMapper::toDto);
                 });
     }
 
