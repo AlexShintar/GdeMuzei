@@ -23,12 +23,6 @@ spring:
       version:
         enabled: false
 
-mongock:
-  enabled: true
-  runner-type: InitializingBean
-  migration-scan-package:
-    - ru.otus.hw.mongock
-
 osm:
   enrich:
     delay-between: 3s
@@ -52,9 +46,6 @@ application:
   nearby:
     radius-km: 10.0
 
-# ===================================================================
-# API Path Configuration
-# ===================================================================
 api:
   paths:
     public:

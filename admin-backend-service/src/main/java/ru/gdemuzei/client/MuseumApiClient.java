@@ -1,7 +1,7 @@
 package ru.gdemuzei.client;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatusCode;
@@ -19,10 +19,13 @@ import ru.gdemuzei.dto.MuseumUpdateRequest;
 import ru.gdemuzei.services.RestPageImpl;
 
 @Service
-@RequiredArgsConstructor
 public class MuseumApiClient {
 
     private final WebClient webClient;
+
+    public MuseumApiClient(@Qualifier("apiModuleWebClient") WebClient webClient) {
+        this.webClient = webClient;
+    }
 
     public Mono<Page<MuseumSummaryDto>> getMuseumsPaginated(int page, int size) {
         return this.webClient.get()
@@ -32,8 +35,7 @@ public class MuseumApiClient {
                         .queryParam("size", size)
                         .build())
                 .retrieve()
-                .bodyToMono(new ParameterizedTypeReference<RestPageImpl<MuseumSummaryDto>>() {
-                })
+                .bodyToMono(new ParameterizedTypeReference<RestPageImpl<MuseumSummaryDto>>() {})
                 .map(restPage -> restPage);
     }
 
@@ -73,18 +75,12 @@ public class MuseumApiClient {
                 });
     }
 
-    /**
-     * Унифицированное чтение тела ошибки сервера и проброс как исключения клиента.
-     */
     private <T> Mono<T> readError(ClientResponse resp) {
         return resp.bodyToMono(ErrorResponse.class)
                 .defaultIfEmpty(new ErrorResponse("Unknown error"))
                 .flatMap(er -> Mono.error(new ApiClientException(resp.statusCode(), er.message())));
     }
 
-    /**
-     * Исключение клиента с кодом статуса.
-     */
     @Getter
     public static class ApiClientException extends RuntimeException {
         private final HttpStatusCode status;

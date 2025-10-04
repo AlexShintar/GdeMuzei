@@ -14,7 +14,9 @@ import reactor.netty.resources.ConnectionProvider;
 public class MuseumApiConfig {
 
     @Bean("apiModuleWebClient")
-    public WebClient apiModuleWebClient(WebClient.Builder builder, MuseumApiProperties p) {
+    public WebClient apiModuleWebClient(WebClient.Builder builder,
+                                        MuseumApiProperties p,
+                                        JwtTokenInterceptor jwtInterceptor) {
         ConnectionProvider pool = ConnectionProvider.builder("museum-api-pool")
                 .maxConnections(p.maxConnections())
                 .build();
@@ -28,6 +30,7 @@ public class MuseumApiConfig {
                 .baseUrl(p.baseUrl())
                 .clientConnector(new ReactorClientHttpConnector(http))
                 .codecs(c -> c.defaultCodecs().maxInMemorySize((int) p.maxInMemory().toBytes()))
+                .filter(jwtInterceptor)  // Добавили JWT перехватчик
                 .build();
     }
 }

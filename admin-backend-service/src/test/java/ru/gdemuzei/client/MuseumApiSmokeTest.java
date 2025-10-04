@@ -14,7 +14,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Smoke-тесты для проверки связи с museum-api.
- * - museum-api запущен на localhost:8082
  */
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)

@@ -1,6 +1,7 @@
 package ru.gdemuzei.commands;
 
 import lombok.RequiredArgsConstructor;
+//import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
@@ -16,6 +17,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 @RequiredArgsConstructor
 @ShellComponent
+//@Profile("shell")
 public class MuseumCommands {
 
     private final MuseumService museumService;
