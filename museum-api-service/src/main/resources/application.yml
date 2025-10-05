@@ -23,6 +23,9 @@ spring:
       version:
         enabled: false
 
+mongock:
+  enabled: false
+
 osm:
   enrich:
     delay-between: 3s

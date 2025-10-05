@@ -19,7 +19,7 @@ public class SecurityConfiguration {
      * - Админские эндпоинты (/api/admin/**) требуют аутентификации
      */
     @Bean
-    @Profile("!test") // Не применяется для профиля test
+    @Profile("test") // Не применяется для профиля test
     public SecurityWebFilterChain securityFilterChain(ServerHttpSecurity http) {
         return http
                 .csrf(ServerHttpSecurity.CsrfSpec::disable) // Отключаем CSRF для REST API
@@ -43,7 +43,7 @@ public class SecurityConfiguration {
      * Разрешает все запросы без аутентификации.
      */
     @Bean
-    @Profile("test") // Применяется только для профиля test
+    @Profile("!test") // Применяется только для профиля test
     public SecurityWebFilterChain testSecurityFilterChain(ServerHttpSecurity http) {
         return http
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)

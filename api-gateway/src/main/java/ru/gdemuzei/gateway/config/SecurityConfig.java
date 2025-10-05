@@ -15,30 +15,21 @@ public class SecurityConfig {
 
     @Bean
     public SecurityWebFilterChain securityFilterChain(ServerHttpSecurity http) {
-        http
+        return http
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .authorizeExchange(exchanges -> exchanges
-                        // Публичные пути
                         .pathMatchers("/auth/**").permitAll()
                         .pathMatchers("/.well-known/**").permitAll()
                         .pathMatchers("/api/public/**").permitAll()
-
-                        // UI админки
                         .pathMatchers("/museums/**", "/css/**", "/js/**", "/login", "/logout", "/").permitAll()
-
-                        // ТОЛЬКО API /api/admin/** требует JWT
                         .pathMatchers("/api/admin/**").hasAuthority("ROLE_ADMIN")
-
-                        .anyExchange().authenticated()
+                        .anyExchange().permitAll()
                 )
-                // OAuth2 Resource Server только для /api/admin/**
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter()))
-                );
-
-        return http.build();
+                )
+                .build();
     }
-
     @Bean
     public ReactiveJwtAuthenticationConverter jwtAuthenticationConverter() {
         JwtGrantedAuthoritiesConverter grantedAuthoritiesConverter =
