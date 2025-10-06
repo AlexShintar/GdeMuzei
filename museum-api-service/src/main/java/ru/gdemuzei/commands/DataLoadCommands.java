@@ -12,7 +12,7 @@ import ru.gdemuzei.services.DataLoadService;
 import java.nio.file.Path;
 
 @ShellComponent
-//@Profile("shell")
+//@Profile("shell") // Отключил для тестов. Шелл для заполнения начальных данных и редких обновлений списка
 @RequiredArgsConstructor
 @Slf4j
 public class DataLoadCommands {

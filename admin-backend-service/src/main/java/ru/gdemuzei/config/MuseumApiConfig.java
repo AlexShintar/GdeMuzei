@@ -30,7 +30,7 @@ public class MuseumApiConfig {
                 .baseUrl(p.baseUrl())
                 .clientConnector(new ReactorClientHttpConnector(http))
                 .codecs(c -> c.defaultCodecs().maxInMemorySize((int) p.maxInMemory().toBytes()))
-                .filter(jwtInterceptor)  // Добавили JWT перехватчик
+                .filter(jwtInterceptor)
                 .build();
     }
 }

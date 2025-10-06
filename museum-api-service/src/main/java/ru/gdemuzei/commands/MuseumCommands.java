@@ -22,6 +22,9 @@ public class MuseumCommands {
 
     private final MuseumService museumService;
 
+    /**
+     * К удалению, использовал для вывода списка пока не было сервиса админа
+     */
     @ShellMethod(value = "Find all museums", key = "am")
     public String findAllMuseumsForAdminAsync(
             @ShellOption(defaultValue = "0", help = "Page number to retrieve") int page,

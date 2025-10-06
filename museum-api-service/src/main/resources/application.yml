@@ -34,6 +34,8 @@ osm:
 
 data:
   import:
+    #  museum-csv-path: "classpath:museum.csv"
+    # temporary path until code is updated
     museum-csv-path: "C:\\Otus\\museum.csv"
 
 clients:

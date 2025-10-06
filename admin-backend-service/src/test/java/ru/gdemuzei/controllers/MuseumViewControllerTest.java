@@ -165,7 +165,7 @@ class MuseumViewControllerTest {
     void createMuseum_whenInvalidEmptyName_shouldReturn422() {
         // Given
         MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
-        formData.add("officialName", ""); // Пустое имя - невалидно
+        formData.add("officialName", "");
         formData.add("longitude", "37.6047");
         formData.add("latitude", "55.7467");
 
@@ -182,8 +182,8 @@ class MuseumViewControllerTest {
         // Given
         MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
         formData.add("officialName", "Test Museum");
-        formData.add("longitude", "200.0"); // Невалидная долгота (> 180)
-        formData.add("latitude", "100.0");  // Невалидная широта (> 90)
+        formData.add("longitude", "200.0");
+        formData.add("latitude", "100.0");
 
         // When & Then
         webTestClient.post().uri("/museums")
@@ -198,7 +198,6 @@ class MuseumViewControllerTest {
         // Given
         MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
         formData.add("officialName", "Test Museum");
-        // longitude и latitude отсутствуют - обязательные поля
 
         // When & Then
         webTestClient.post().uri("/museums")

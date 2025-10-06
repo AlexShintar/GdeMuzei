@@ -134,7 +134,7 @@ class MuseumApiSmokeTest {
                     assertThat(updatedMuseum.latitude()).isEqualTo(55.7467);
                     assertThat(updatedMuseum.longitude()).isEqualTo(37.6047);
                     assertThat(updatedMuseum.locality()).isEqualTo("Санкт-Петербург");
-//                    assertThat(updatedMuseum.verified()).isTrue();
+//                    assertThat(updatedMuseum.verified()).isTrue(); // верификация не настроена, пока все музеи "непроверенные"
                     System.out.println("  ✓ Обновлен музей: " + updatedMuseum.officialName());
                     System.out.println("  ✓ Новый город: " + updatedMuseum.locality());
                     System.out.println("  ✓ Verified: " + updatedMuseum.verified());
