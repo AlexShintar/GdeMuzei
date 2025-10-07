@@ -1,5 +1,6 @@
 package ru.gdemuzei.bot.repositories;
 
+import com.github.benmanes.caffeine.cache.Cache;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import ru.gdemuzei.bot.dto.MuseumSummaryDto;
@@ -8,7 +9,7 @@ import ru.gdemuzei.bot.dto.MuseumSummaryDto;
 @RequiredArgsConstructor
 public class MuseumCache {
 
-    private final com.github.benmanes.caffeine.cache.Cache<String, MuseumSummaryDto> cache;
+    private final Cache<String, MuseumSummaryDto> cache;
 
     public void put(MuseumSummaryDto dto) {
         if (dto != null && dto.id() != null) cache.put(dto.id(), dto);

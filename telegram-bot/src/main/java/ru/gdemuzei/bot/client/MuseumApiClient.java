@@ -28,15 +28,19 @@ public class MuseumApiClient {
                 .bodyToFlux(MuseumSummaryDto.class);
     }
 
-    public Flux<MuseumSummaryDto> searchText(String query, int offset, int limit) {  // заготовка!
-        return webClient.get()
-                .uri(uri -> uri
-                        .path(apiConfig.searchPath())
-                        .queryParam("q", query)
-                        .queryParam("offset", offset)
-                        .queryParam("limit", limit)
-                        .build())
-                .retrieve()
-                .bodyToFlux(MuseumSummaryDto.class);
+//    public Flux<MuseumSummaryDto> searchText(String query, int offset, int limit) {  // заготовка!
+//        return webClient.get()
+//                .uri(uri -> uri
+//                        .path(apiConfig.searchPath())
+//                        .queryParam("q", query)
+//                        .queryParam("offset", offset)
+//                        .queryParam("limit", limit)
+//                        .build())
+//                .retrieve()
+//                .bodyToFlux(MuseumSummaryDto.class);
+//    }
+
+    public Flux<MuseumSummaryDto> searchText(String query, int offset, int limit) {
+        return Flux.empty();
     }
 }
