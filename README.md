@@ -80,3 +80,5 @@ Spring Boot, WebFlux, Spring MVC, MongoDB, Redis, Spring Security, JWT, Telegram
 - [ ] Расширенный поиск по тегам и городам
 - [ ] Оптимизация Telegram UI через callback_data
 - [ ] Интеграция с внешними источниками (OpenStreetMap, музейные API)
+
+**Тестировать бота:** [@gdemuzei_bot](https://t.me/gdemuzei_bot)
