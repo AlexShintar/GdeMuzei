@@ -1,24 +1,24 @@
 package ru.gdemuzei.bot.repositories;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import ru.gdemuzei.bot.dto.MuseumSummaryDto;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
-
 @Component
+@RequiredArgsConstructor
 public class MuseumCache {
-    private final Map<Long, Map<String, MuseumSummaryDto>> byChat = new ConcurrentHashMap<>();
 
-    public void put(long chatId, MuseumSummaryDto dto) {
+    private final com.github.benmanes.caffeine.cache.Cache<String, MuseumSummaryDto> cache;
 
-        byChat.computeIfAbsent(chatId, k -> new ConcurrentHashMap<>())
-                .put(dto.id(), dto);
+    public void put(MuseumSummaryDto dto) {
+        if (dto != null && dto.id() != null) cache.put(dto.id(), dto);
     }
 
-    public MuseumSummaryDto get(long chatId, String id) {
-        var m = byChat.get(chatId);
-        return m == null ? null : m.get(id);
+    public MuseumSummaryDto get(String id) {
+        return cache.getIfPresent(id);
     }
+
+//    public void putAll(Collection<MuseumSummaryDto> dtos) {
+//        dtos.forEach(this::put);
+//    }
 }

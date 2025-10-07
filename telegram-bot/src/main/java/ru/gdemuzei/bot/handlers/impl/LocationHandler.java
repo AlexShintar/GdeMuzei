@@ -8,16 +8,14 @@ import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.gdemuzei.bot.handlers.UpdateHandler;
 import ru.gdemuzei.bot.service.MuseumPageLoader;
-import ru.gdemuzei.bot.telegram.TelegramMessageFactory;
-import ru.gdemuzei.bot.util.GeoUtil;
 
 import java.util.List;
 
 @Slf4j
 @Component
-@Order(10)
+@Order(20)
 @RequiredArgsConstructor
-public class CoordsHandler implements UpdateHandler {
+public class LocationHandler implements UpdateHandler {
 
     private final MuseumPageLoader pageLoader;
 
@@ -26,21 +24,15 @@ public class CoordsHandler implements UpdateHandler {
         if (!update.hasMessage()) {
             return false;
         }
-        return GeoUtil.parseLatLon(update.getMessage().getText().trim(), new double[2]);
+        return update.getMessage().hasLocation();
     }
 
     @Override
     public List<BotApiMethod<?>> handle(Update update) {
-        var text = update.getMessage().getText().trim();
-        long chatId = update.getMessage().getChatId();
-        double[] coords = new double[2];
-
-        if (!GeoUtil.parseLatLon(text, coords)) {
-            // не забыть убрать
-            return List.of(TelegramMessageFactory.createHintMessage(chatId));
-        }
-
-        pageLoader.loadAndSendPage(chatId, coords[0], coords[1], 0);
+        var msg = update.getMessage();
+        long chatId = msg.getChatId();
+        var loc = msg.getLocation();
+        pageLoader.loadAndSendPage(chatId, loc.getLatitude(), loc.getLongitude(), 0);
         return List.of();
     }
 }

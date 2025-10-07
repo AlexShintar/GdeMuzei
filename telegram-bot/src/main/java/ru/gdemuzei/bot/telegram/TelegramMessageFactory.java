@@ -43,6 +43,15 @@ public class TelegramMessageFactory {
                 .replyMarkup(createSingleButtonKeyboard("Дальше", callbackData))
                 .build();
     }
+    public static SendMessage createNextTextButtonMessage(long chatId, String query, int nextOffset) {
+        String text = "Поиск по запросу: " + query;  // временное решение, до внедрения возврата searchId из redis в callback_data
+        String payload = "nextText:" + nextOffset;
+        return SendMessage.builder()
+                .chatId(String.valueOf(chatId))
+                .text(text)
+                .replyMarkup(createSingleButtonKeyboard("Продолжить", payload))
+                .build();
+    }
 
     public static SendMessage createStartMessage(long chatId) {
         KeyboardButton locBtn = KeyboardButton.builder()

@@ -9,7 +9,7 @@ import ru.gdemuzei.bot.telegram.TelegramMessageFactory;
 
 import java.util.List;
 
-@Order(10)
+@Order(0)
 @Component
 public class StartCommandHandler implements UpdateHandler {
 
