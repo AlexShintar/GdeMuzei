@@ -15,7 +15,7 @@ import java.util.List;
 
 @Slf4j
 @Component
-@Order(10)
+@Order(20)
 @RequiredArgsConstructor
 public class CoordsHandler implements UpdateHandler {
 

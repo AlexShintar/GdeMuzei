@@ -12,7 +12,7 @@ import ru.gdemuzei.bot.service.MuseumPageLoader;
 import java.util.List;
 
 @Component
-@Order(20)
+@Order(60)
 @RequiredArgsConstructor
 public class NextPageHandler implements UpdateHandler {
 

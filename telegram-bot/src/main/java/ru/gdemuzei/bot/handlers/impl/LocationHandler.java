@@ -13,7 +13,7 @@ import java.util.List;
 
 @Slf4j
 @Component
-@Order(20)
+@Order(10)
 @RequiredArgsConstructor
 public class LocationHandler implements UpdateHandler {
 
