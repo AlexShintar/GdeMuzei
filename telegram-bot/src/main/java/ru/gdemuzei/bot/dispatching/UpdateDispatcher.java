@@ -18,7 +18,6 @@ public class UpdateDispatcher {
     private final List<UpdateHandler> handlers;
 
     public List<BotApiMethod<?>> dispatch(Update update) {
-        System.out.println(update);
         List<BotApiMethod<?>> out = new ArrayList<>();
         for (UpdateHandler h : handlers) {
             try {

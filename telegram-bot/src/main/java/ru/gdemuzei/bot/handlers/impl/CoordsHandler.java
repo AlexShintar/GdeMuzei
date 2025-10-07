@@ -26,7 +26,10 @@ public class CoordsHandler implements UpdateHandler {
         if (!update.hasMessage()) {
             return false;
         }
-        return GeoUtil.parseLatLon(update.getMessage().getText().trim(), new double[2]);
+        var msg = update.getMessage();
+        if (msg.hasLocation()) return false;
+        if (!msg.hasText()) return false;
+        return GeoUtil.parseLatLon(msg.getText().trim(), new double[2]);
     }
 
     @Override
