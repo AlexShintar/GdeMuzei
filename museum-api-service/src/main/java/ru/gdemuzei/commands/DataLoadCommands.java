@@ -12,7 +12,7 @@ import ru.gdemuzei.services.DataLoadService;
 import java.nio.file.Path;
 
 @ShellComponent
-//@Profile("shell")
+//@Profile("shell") // Отключил для тестов. Шелл для заполнения начальных данных и редких обновлений списка
 @RequiredArgsConstructor
 @Slf4j
 public class DataLoadCommands {
@@ -47,18 +47,23 @@ public class DataLoadCommands {
     }
 
     /**
-     * Обогащает уже существующие записи музеев данными из Nominatim/OSM.
-     * <p>Процесс останавливается, если обнаружен лимит/бан (HTTP 429/403).
+     * Обогащает существующие записи музеев данными из Nominatim/OSM.
+     * <p>Процесс запускается асинхронно и останавливается, если обнаружен лимит/бан (HTTP 429/403).</p>
      *
-     * @return отчёт о завершении процесса
+     * @return отчёт о запуске процесса
      */
-    @ShellMethod(key = "osm", value = "Enrich existing museums with data from OSM.")//enrich-from-osm
+    @ShellMethod(key = "osm", value = "Enrich existing museums with data from OSM.")
     public String enrichFromOsm() {
-        log.info("Starting enrichment process...");
-
         dataLoadService.enrichUnverifiedMuseumsFromOsm()
-                .block(); // убрать?
+                .doOnSubscribe(s -> log.info("Starting enrichment process..."))
+                .doOnSuccess(v -> log.info("Enrichment process completed successfully."))
+                .doOnError(e -> {
+                    if (!e.getMessage().contains("OSM rate limit/ban detected")) {
+                        log.error("Enrichment process failed with an unexpected error.", e);
+                    }
+                })
+                .subscribe();
 
-        return "Enrichment process completed.";
+        return "Enrichment process initiated in the background. Check logs for details.";
     }
 }

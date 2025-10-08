@@ -1,0 +1,7 @@
+clients:
+  museum-api:
+    base-url: http://localhost:8080
+    connect-timeout-ms: 3000
+    response-timeout: 5s
+    max-in-memory: 256KB
+    max-connections: 50

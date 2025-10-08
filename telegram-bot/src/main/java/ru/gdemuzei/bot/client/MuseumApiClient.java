@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import ru.gdemuzei.bot.config.MuseumApiConfig;
-import ru.gdemuzei.bot.dto.MuseumSummaryDto;
+import ru.gdemuzei.contracts.MuseumSummaryDto;
 
 @Service
 @RequiredArgsConstructor
@@ -26,5 +26,21 @@ public class MuseumApiClient {
                         .build())
                 .retrieve()
                 .bodyToFlux(MuseumSummaryDto.class);
+    }
+
+//    public Flux<MuseumSummaryDto> searchText(String query, int offset, int limit) {  // заготовка!
+//        return webClient.get()
+//                .uri(uri -> uri
+//                        .path(apiConfig.searchPath())
+//                        .queryParam("q", query)
+//                        .queryParam("offset", offset)
+//                        .queryParam("limit", limit)
+//                        .build())
+//                .retrieve()
+//                .bodyToFlux(MuseumSummaryDto.class);
+//    }
+
+    public Flux<MuseumSummaryDto> searchText(String query, int offset, int limit) {
+        return Flux.empty();
     }
 }

@@ -1,0 +1,56 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:8083/.well-known/jwks.json
+          issuer-uri: http://localhost:8083
+
+  cloud:
+    gateway:
+      server:
+        webflux:
+          routes:
+            # Auth service (публичный)
+            - id: auth-service
+              uri: http://localhost:8083
+              predicates:
+                - Path=/auth/**,/.well-known/**
+
+            # Museum API - публичные
+            - id: museum-public-api
+              uri: http://localhost:8082
+              predicates:
+                - Path=/api/public/**
+
+            # Museum API - админские (защищены JWT)
+            - id: museum-admin-api
+              uri: http://localhost:8082
+              predicates:
+                - Path=/api/admin/**
+
+            # Admin UI - веб-интерфейс
+            - id: admin-ui
+              uri: http://localhost:8081
+              predicates:
+                - Path=/museums/**,/css/**,/js/**,/login,/logout
+
+            # Редирект с / на /museums
+            - id: root-redirect
+              uri: no://op
+              predicates:
+                - Path=/
+              filters:
+                - RedirectTo=302, /museums
+
+
+logging:
+  level:
+    org.springframework.security: INFO
+    org.springframework.cloud.gateway: INFO

@@ -4,6 +4,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.springframework.data.geo.GeoResult;
+import ru.gdemuzei.contracts.MuseumCreateRequest;
+import ru.gdemuzei.contracts.MuseumDto;
 import ru.gdemuzei.dto.*;
 import ru.gdemuzei.models.Museum;
 
@@ -15,6 +17,14 @@ public interface MuseumMapper {
     @Mapping(target = "verified", ignore = true)
     @Mapping(target = "id", ignore = true)
     @Mapping(source = "telegram", target = "telegramChannel")
+    @Mapping(target = "adminTags", ignore = true)
+    @Mapping(target = "osmData", ignore = true)
+    @Mapping(target = "deleted", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "createdBy", ignore = true)
+    @Mapping(target = "lastUpdatedAt", ignore = true)
+    @Mapping(target = "lastUpdatedBy", ignore = true)
+    @Mapping(target = "deletedAt", ignore = true)
     Museum toEntity(MuseumCreateRequest request);
 
     @Mapping(source = "officialName", target = "name")

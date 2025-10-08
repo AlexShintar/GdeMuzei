@@ -9,7 +9,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKe
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardRow;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
-import ru.gdemuzei.bot.dto.MuseumSummaryDto;
+import ru.gdemuzei.contracts.MuseumSummaryDto;
 import ru.gdemuzei.bot.util.GeoUtil;
 
 import java.util.ArrayList;
@@ -41,6 +41,15 @@ public class TelegramMessageFactory {
                 .chatId(String.valueOf(chatId))
                 .text("Показать ещё музеи?")
                 .replyMarkup(createSingleButtonKeyboard("Дальше", callbackData))
+                .build();
+    }
+    public static SendMessage createNextTextButtonMessage(long chatId, String query, int nextOffset) {
+        String text = "Поиск по запросу: " + query;  // временное решение, до внедрения возврата searchId из redis в callback_data
+        String payload = "nextText:" + nextOffset;
+        return SendMessage.builder()
+                .chatId(String.valueOf(chatId))
+                .text(text)
+                .replyMarkup(createSingleButtonKeyboard("Продолжить", payload))
                 .build();
     }
 

@@ -51,8 +51,9 @@ public class Museum {
     private String addressOverride;
 
     @Indexed(background = true)
+    private Boolean verified=false;
 
-    private Boolean verified;
+    private Boolean deleted = false;
 
     @CreatedDate
     private Instant createdAt;
@@ -63,4 +64,6 @@ public class Museum {
     private Instant lastUpdatedAt;
 
     private String lastUpdatedBy;
+
+    private Instant deletedAt;
 }

@@ -6,5 +6,5 @@ public record MuseumSummaryDto(
         String locality, // Название города/населенного пункта
         String address, // Полный адрес из OSM или переопределенный
         boolean verified, // Статус верификации
-        String website // Ссылка на сайт
+        String website
 ) {}

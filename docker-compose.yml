@@ -1,0 +1,151 @@
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: gde_muzei_mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    env_file:
+      - ./secrets/mongo.env
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    networks:
+      - gdemuzei-network
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    container_name: gde_muzei_redis
+    env_file:
+      - ./secrets/redis.env
+    command:
+      - "redis-server"
+      - "--appendonly"
+      - "no"
+      - "--requirepass"
+      - "${REDIS_PASSWORD}"
+    # ports: ["6379:6379"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD}", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    networks:
+      - gdemuzei-network
+    restart: unless-stopped
+
+  auth-service:
+    build:
+      context: .
+      dockerfile: auth-service/Dockerfile
+    container_name: gde_muzei_auth
+    ports:
+      - "8083:8083"
+    env_file:
+      - ./secrets/auth-service.env
+    environment:
+      JWT_ISSUER: http://auth-service:8083
+      SPRING_PROFILES_ACTIVE: compose
+    volumes:
+      - ./secrets/auth-service/application-secrets.yml:/app/application-secrets.yml:ro
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    networks:
+      - gdemuzei-network
+    restart: unless-stopped
+
+  museum-api:
+    build:
+      context: .
+      dockerfile: museum-api-service/Dockerfile
+    container_name: gde_muzei_museum_api
+    ports:
+      - "8082:8082"
+    env_file:
+      - ./secrets/museum-api.env
+      - ./secrets/redis.env
+    environment:
+      SPRING_DATA_MONGODB_HOST: mongodb
+      SPRING_DATA_MONGODB_PORT: 27017
+      SPRING_DATA_MONGODB_AUTHENTICATION_DATABASE: admin
+      SPRING_DATA_REDIS_HOST: redis
+      SPRING_DATA_REDIS_PORT: 6379
+      SPRING_PROFILES_ACTIVE: compose
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - gdemuzei-network
+    restart: unless-stopped
+
+  admin-backend:
+    build:
+      context: .
+      dockerfile: admin-backend-service/Dockerfile
+    container_name: gde_muzei_admin
+    ports:
+      - "8081:8081"
+    env_file:
+      - ./secrets/admin-backend.env
+    environment:
+      CLIENTS_MUSEUM_API_BASE_URL: http://api-gateway:8080
+      AUTH_SERVICE_URL: http://api-gateway:8080
+      SPRING_PROFILES_ACTIVE: compose
+    depends_on:
+      - auth-service
+      - museum-api
+    networks:
+      - gdemuzei-network
+    restart: unless-stopped
+
+  api-gateway:
+    build:
+      context: .
+      dockerfile: api-gateway/Dockerfile
+    container_name: gde_muzei_gateway
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI: http://auth-service:8083/.well-known/jwks.json
+      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: http://auth-service:8083
+      SPRING_PROFILES_ACTIVE: compose
+    depends_on:
+      - auth-service
+      - museum-api
+      - admin-backend
+    networks:
+      - gdemuzei-network
+    restart: unless-stopped
+
+  telegram-bot:
+    build:
+      context: .
+      dockerfile: telegram-bot/Dockerfile
+    container_name: gde_muzei_telegram_bot
+    environment:
+      MUSEUM_API_BASE_URL: http://api-gateway:8080
+      MUSEUM_API_SEARCH_PATH: /api/public/v2/museums/search
+      MUSEUM_API_TIMEOUT_MS: 10000
+      MUSEUM_API_MAX_IN_MEMORY_KB: 256
+      SPRING_PROFILES_ACTIVE: compose
+    volumes:
+      - ./secrets/telegram-bot/application-secrets.yml:/app/application-secrets.yml:ro
+    depends_on:
+      - api-gateway
+    networks:
+      - gdemuzei-network
+    restart: unless-stopped
+
+volumes:
+  mongo-data:
+
+networks:
+  gdemuzei-network:
+    driver: bridge

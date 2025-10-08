@@ -12,7 +12,7 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 import reactor.core.Exceptions;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import ru.gdemuzei.dto.MuseumCreateRequest;
+import ru.gdemuzei.contracts.MuseumCreateRequest;
 import ru.gdemuzei.dto.NominatimResponse;
 import ru.gdemuzei.models.OsmData;
 import ru.gdemuzei.util.AddressFormatter;

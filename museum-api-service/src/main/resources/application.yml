@@ -24,10 +24,7 @@ spring:
         enabled: false
 
 mongock:
-  enabled: true
-  runner-type: InitializingBean
-  migration-scan-package:
-    - ru.otus.hw.mongock
+  enabled: false
 
 osm:
   enrich:
@@ -37,6 +34,8 @@ osm:
 
 data:
   import:
+    #  museum-csv-path: "classpath:museum.csv"
+    # temporary path until code is updated
     museum-csv-path: "C:\\Otus\\museum.csv"
 
 clients:
@@ -48,7 +47,15 @@ clients:
     max-in-memory-bytes: 256KB
     max-connections: 50
 
-
 application:
   nearby:
     radius-km: 10.0
+
+api:
+  paths:
+    public:
+      museums: /api/public/v2/museums
+      search: /api/public/v2/museums/search
+    admin:
+      museums: /api/admin/v2/museums
+      search: /api/admin/v2/museums/search
