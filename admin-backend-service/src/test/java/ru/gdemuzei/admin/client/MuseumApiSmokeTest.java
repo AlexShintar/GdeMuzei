@@ -1,11 +1,11 @@
-package ru.gdemuzei.client;
+package ru.gdemuzei.admin.client;
 
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import reactor.test.StepVerifier;
 import ru.gdemuzei.contracts.MuseumCreateRequest;
-import ru.gdemuzei.dto.MuseumUpdateRequest;
+import ru.gdemuzei.admin.dto.MuseumUpdateRequest;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

@@ -1,4 +1,4 @@
-package ru.gdemuzei.client;
+package ru.gdemuzei.admin.client;
 
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -11,12 +11,12 @@ import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Mono;
-import ru.gdemuzei.dto.ErrorResponse;
+import ru.gdemuzei.admin.dto.ErrorResponse;
 import ru.gdemuzei.contracts.MuseumCreateRequest;
 import ru.gdemuzei.contracts.MuseumDto;
-import ru.gdemuzei.dto.MuseumSummaryDto;
-import ru.gdemuzei.dto.MuseumUpdateRequest;
-import ru.gdemuzei.services.RestPageImpl;
+import ru.gdemuzei.admin.dto.MuseumSummaryDto;
+import ru.gdemuzei.admin.dto.MuseumUpdateRequest;
+import ru.gdemuzei.admin.services.RestPageImpl;
 
 @Service
 public class MuseumApiClient {

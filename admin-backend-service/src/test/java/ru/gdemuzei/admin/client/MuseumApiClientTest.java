@@ -1,4 +1,4 @@
-package ru.gdemuzei.client;
+package ru.gdemuzei.admin.client;
 
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
@@ -12,8 +12,8 @@ import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.test.StepVerifier;
 import ru.gdemuzei.contracts.MuseumCreateRequest;
-import ru.gdemuzei.dto.MuseumSummaryDto;
-import ru.gdemuzei.dto.MuseumUpdateRequest;
+import ru.gdemuzei.admin.dto.MuseumSummaryDto;
+import ru.gdemuzei.admin.dto.MuseumUpdateRequest;
 
 import java.io.IOException;
 

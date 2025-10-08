@@ -1,4 +1,4 @@
-package ru.gdemuzei.controllers;
+package ru.gdemuzei.admin.controllers;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -11,10 +11,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.reactive.result.view.Rendering;
 import reactor.core.publisher.Mono;
-import ru.gdemuzei.client.MuseumApiClient;
+import ru.gdemuzei.admin.client.MuseumApiClient;
 import ru.gdemuzei.contracts.MuseumCreateRequest;
-import ru.gdemuzei.dto.MuseumSummaryDto;
-import ru.gdemuzei.dto.MuseumUpdateRequest;
+import ru.gdemuzei.admin.dto.MuseumSummaryDto;
+import ru.gdemuzei.admin.dto.MuseumUpdateRequest;
 
 import static org.springframework.validation.BindingResult.MODEL_KEY_PREFIX;
 

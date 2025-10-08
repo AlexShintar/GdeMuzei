@@ -1,18 +1,26 @@
-FROM maven:3.9-eclipse-temurin-21 AS build
-WORKDIR /app
-
+# ---------- deps ----------
+FROM maven:3.9-eclipse-temurin-21 AS deps
+WORKDIR /build
 COPY pom.xml .
-COPY museum-contracts ./museum-contracts
-COPY auth-service ./auth-service
-COPY museum-api-service ./museum-api-service
-COPY admin-backend-service ./admin-backend-service
-COPY api-gateway ./api-gateway
-COPY telegram-bot ./telegram-bot
+COPY museum-contracts/pom.xml museum-contracts/pom.xml
+COPY admin-backend-service/pom.xml admin-backend-service/pom.xml
+RUN --mount=type=cache,target=/root/.m2 mvn -B -q -DskipTests dependency:go-offline -pl admin-backend-service -am
 
-RUN mvn clean package -pl admin-backend-service -am -DskipTests
+# ---------- build ----------
+FROM maven:3.9-eclipse-temurin-21 AS build
+WORKDIR /build
+COPY --from=deps /root/.m2 /root/.m2
+COPY pom.xml .
+COPY museum-contracts museum-contracts
+COPY admin-backend-service admin-backend-service
+RUN --mount=type=cache,target=/root/.m2 mvn -B -q -DskipTests -pl admin-backend-service -am package
 
+# ---------- runtime ----------
 FROM eclipse-temurin:21-jre
 WORKDIR /app
-COPY --from=build /app/admin-backend-service/target/*.jar app.jar
+RUN useradd -r -u 10001 appuser
+USER appuser
+ENV JAVA_TOOL_OPTIONS="-XX:MaxRAMPercentage=75.0 -XX:+UseContainerSupport -Dfile.encoding=UTF-8"
+COPY --from=build /build/admin-backend-service/target/*.jar app.jar
 EXPOSE 8081
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java","-jar","app.jar"]

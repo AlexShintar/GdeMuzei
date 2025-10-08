@@ -1,4 +1,4 @@
-package ru.gdemuzei.services;
+package ru.gdemuzei.admin.services;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

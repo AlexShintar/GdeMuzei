@@ -5,7 +5,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import ru.gdemuzei.bot.dto.MuseumSummaryDto;
+import ru.gdemuzei.contracts.MuseumSummaryDto;
 import ru.gdemuzei.bot.handlers.UpdateHandler;
 import ru.gdemuzei.bot.repositories.MuseumCache;
 import ru.gdemuzei.bot.telegram.TelegramMessageFactory;

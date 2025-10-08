@@ -1,10 +1,12 @@
 target/
-*.mvn
-*.class
+**/target/
+
 *.iml
 *.iws
 *.ipr
 .idea/
+
+secrets/
 
 *.log
 application-secrets.yml

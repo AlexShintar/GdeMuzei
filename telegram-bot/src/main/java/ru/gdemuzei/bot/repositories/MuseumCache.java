@@ -3,7 +3,7 @@ package ru.gdemuzei.bot.repositories;
 import com.github.benmanes.caffeine.cache.Cache;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import ru.gdemuzei.bot.dto.MuseumSummaryDto;
+import ru.gdemuzei.contracts.MuseumSummaryDto;
 
 @Component
 @RequiredArgsConstructor

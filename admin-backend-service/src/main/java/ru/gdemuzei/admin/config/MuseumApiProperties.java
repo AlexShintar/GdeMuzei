@@ -1,4 +1,4 @@
-package ru.gdemuzei.config;
+package ru.gdemuzei.admin.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.util.unit.DataSize;

@@ -1,4 +1,4 @@
-package ru.gdemuzei.config;
+package ru.gdemuzei.admin.config;
 
 import io.netty.channel.ChannelOption;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

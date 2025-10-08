@@ -1,4 +1,4 @@
-package ru.gdemuzei.bot.dto;
+package ru.gdemuzei.contracts;
 
 public record MuseumSummaryDto(
         String id,

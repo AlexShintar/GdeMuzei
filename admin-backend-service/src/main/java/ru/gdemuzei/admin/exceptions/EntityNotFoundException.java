@@ -1,4 +1,4 @@
-package ru.gdemuzei.exceptions;
+package ru.gdemuzei.admin.exceptions;
 
 public class EntityNotFoundException extends RuntimeException {
     public EntityNotFoundException(String message) {

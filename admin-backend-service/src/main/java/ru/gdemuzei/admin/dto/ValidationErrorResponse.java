@@ -1,4 +1,4 @@
-package ru.gdemuzei.dto;
+package ru.gdemuzei.admin.dto;
 
 import java.util.List;
 
