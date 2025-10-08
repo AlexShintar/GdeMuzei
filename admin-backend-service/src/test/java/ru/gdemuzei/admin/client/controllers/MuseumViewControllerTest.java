@@ -1,4 +1,4 @@
-package ru.gdemuzei.controllers;
+package ru.gdemuzei.admin.client.controllers;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +13,14 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import reactor.core.publisher.Mono;
-import ru.gdemuzei.client.MuseumApiClient;
+import ru.gdemuzei.admin.client.MuseumApiClient;
+import ru.gdemuzei.admin.controllers.GlobalControllerAdvice;
+import ru.gdemuzei.admin.controllers.MuseumViewController;
+import ru.gdemuzei.admin.controllers.PageController;
 import ru.gdemuzei.contracts.MuseumDto;
 import ru.gdemuzei.contracts.MuseumCreateRequest;
-import ru.gdemuzei.dto.MuseumSummaryDto;
-import ru.gdemuzei.dto.MuseumUpdateRequest;
+import ru.gdemuzei.admin.dto.MuseumSummaryDto;
+import ru.gdemuzei.admin.dto.MuseumUpdateRequest;
 
 import java.util.Collections;
 import java.util.List;
